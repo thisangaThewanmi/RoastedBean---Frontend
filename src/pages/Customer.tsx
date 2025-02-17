@@ -1,9 +1,33 @@
 import Dashboard from "../assets/navigation/Dashboard.tsx";
+import {useState} from "react";
+import CustomerModel from "../Components/CustomerModel.tsx";
 
 function Customer() {
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
+    const [modalTitle, setModalTitle] = useState("Add Customer"); // Default title
+
+
+
+    const openEditModal = () => {
+        setSelectedCustomer(null); // Pass existing customer data
+        setModalTitle("Update Customer"); // Change title for editing
+        setIsOpen(true);
+    };
+
+    const saveCustomer = () => {
+        console.log("Customer Saved:");
+        setIsOpen(false);
+    };
+
+
+
+
     return (
 
-        <div  className=" min-h-screen w-screen flex  justify-center  h-screen flex full-page-container bg-[url(https://i.pinimg.com/736x/c2/fd/42/c2fd4250aabfe2826e9e7b0cd07a4941.jpg)] bg-repeat bg-auto overflow-hidden ">
+        // <div  className=" min-h-screen w-screen flex  justify-center  h-screen flex full-page-container bg-[url(https://i.pinimg.com/736x/c2/fd/42/c2fd4250aabfe2826e9e7b0cd07a4941.jpg)] bg-repeat bg-auto overflow-hidden ">
+        <div className=" min-h-screen w-screen flex  justify-center  h-screen flex full-page-container bg-[url(https://i.pinimg.com/736x/5c/9d/ef/5c9def38bd720d1c4ec9d0721cfcf012.jpg)] bg-repeat bg-auto overflow-hidden ">
 
             <div className="w-[97%] ml-2 mr-2 mt-2 mb-2 h-[100%] flex flex-row  ">
 
@@ -13,7 +37,8 @@ function Customer() {
 
                 <div className="h-[95%] w-[84%] ml-4 bg-white rounded-3xl bg-opacity-85 mt-2 ">
 
-                    <div className="w-[96%] h-[7%] mt-4 mr-3 ml-3 bg-white rounded-2xl border-2 border-amber-950 text-[#5D4037] px-4 py-2 font-semibold">
+                    <div
+                        className="w-[96%] h-[7%] mt-4 mr-3 ml-3 bg-white rounded-2xl border-2 border-amber-950 text-[#5D4037] px-4 py-2 font-semibold">
                         Dashboard / Manage Customers
                     </div>
 
@@ -28,13 +53,14 @@ function Customer() {
                                 placeholder="Search Customers..."
                                 className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
-                            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                            <button
+                                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                                 Search
                             </button>
                         </div>
 
                         {/* Add Customer Button */}
-                        <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition">
+                        <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition"  onClick={() => setIsOpen(true)}>
                             + Add Customer
                         </button>
                     </div>
@@ -66,26 +92,36 @@ function Customer() {
                                 <td className="py-3 px-6">+123 456 7890</td>
                                 <td className="py-3 px-6">123 Main St, City</td>
                                 <td className="py-3 px-6">
-                                    <span className="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs">Active</span>
+                                    <span
+                                        className="bg-green-200 text-green-700 py-1 px-3 rounded-full text-xs">Active</span>
                                 </td>
                                 <td className="py-3 px-6">
-                                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">Edit</button>
-                                    <button className="bg-red-500 text-white px-3 py-1 ml-2 rounded hover:bg-red-600 text-xs">Delete</button>
+                                    <button
+                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs" onClick={() => openEditModal()}>Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white px-3 py-1 ml-2 rounded hover:bg-red-600 text-xs">Delete
+                                    </button>
                                 </td>
                             </tr>
 
-                            <tr className="border-b border-gray-200 hover:bg-gray-100">
+                           {/* <tr className="border-b border-gray-200 hover:bg-gray-100">
                                 <td className="py-3 px-6">002</td>
                                 <td className="py-3 px-6">Jane Smith</td>
                                 <td className="py-3 px-6">jane@example.com</td>
                                 <td className="py-3 px-6">+987 654 3210</td>
                                 <td className="py-3 px-6">456 Elm St, Town</td>
                                 <td className="py-3 px-6">
-                                    <span className="bg-yellow-200 text-yellow-700 py-1 px-3 rounded-full text-xs">Pending</span>
+                                    <span
+                                        className="bg-yellow-200 text-yellow-700 py-1 px-3 rounded-full text-xs">Pending</span>
                                 </td>
                                 <td className="py-3 px-6">
-                                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">Edit</button>
-                                    <button className="bg-red-500 text-white px-3 py-1 ml-2 rounded hover:bg-red-600 text-xs">Delete</button>
+                                    <button
+                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs" onClick={() => openEditModal(customer)}>Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white px-3 py-1 ml-2 rounded hover:bg-red-600 text-xs">Delete
+                                    </button>
                                 </td>
                             </tr>
 
@@ -96,22 +132,32 @@ function Customer() {
                                 <td className="py-3 px-6">+321 654 9870</td>
                                 <td className="py-3 px-6">789 Oak St, Village</td>
                                 <td className="py-3 px-6">
-                                    <span className="bg-red-200 text-red-700 py-1 px-3 rounded-full text-xs">Inactive</span>
+                                    <span
+                                        className="bg-red-200 text-red-700 py-1 px-3 rounded-full text-xs">Inactive</span>
                                 </td>
                                 <td className="py-3 px-6">
-                                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">Edit</button>
-                                    <button className="bg-red-500 text-white px-3 py-1 ml-2 rounded hover:bg-red-600 text-xs">Delete</button>
+                                    <button
+                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs" onClick={() => console.log("edit clicked")}>Edit
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white px-3 py-1 ml-2 rounded hover:bg-red-600 text-xs">Delete
+                                    </button>
                                 </td>
-                            </tr>
+                            </tr>*/}
                             </tbody>
                         </table>
                     </div>
 
                 </div>
             </div>
-        </div>
 
+            <CustomerModel isOpen={isOpen} onClose={()=> setIsOpen(false)} onSave={saveCustomer} heading={modalTitle}></CustomerModel>
+
+
+        </div>
     )
+
+
 }
 
 export default Customer
