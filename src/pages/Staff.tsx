@@ -1,25 +1,27 @@
 import Dashboard from "../assets/navigation/Dashboard.tsx";
 import {useState} from "react";
-import CustomerModel from "../Components/CustomerModel.tsx";
+import StaffModal from "../Components/StaffModal.tsx";
 
-function Customer() {
+function Staff() {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
-    const [modalTitle, setModalTitle] = useState("Add Customer"); // Default title
+    const [selectedStaff, setSelectedStaff] = useState<any>(null);
+    const [modalTitle, setModalTitle] = useState("Add Staff"); // Default title
 
 
 
     const openEditModal = () => {
-        setSelectedCustomer(null); // Pass existing customer data
-        setModalTitle("Update Customer"); // Change title for editing
+        setSelectedStaff(null); // Pass existing customer data
+        setModalTitle("Update Staff"); // Change title for editing
         setIsOpen(true);
     };
 
-    const saveCustomer = () => {
+    const saveStaff = () => {
         console.log("Customer Saved:");
         setIsOpen(false);
     };
+
+
 
 
 
@@ -39,7 +41,7 @@ function Customer() {
 
                     <div
                         className="w-[96%] h-[7%] mt-4 mr-3 ml-3 bg-white rounded-2xl border-2 border-amber-950 text-[#5D4037] px-4 py-2 font-semibold">
-                        Dashboard / Manage Customers
+                        Dashboard / Manage Staff
                     </div>
 
 
@@ -151,7 +153,7 @@ function Customer() {
                 </div>
             </div>
 
-            <CustomerModel isOpen={isOpen} onClose={()=> setIsOpen(false)} onSave={saveCustomer} heading={modalTitle}></CustomerModel>
+            <StaffModal isOpen={isOpen} onClose={()=> setIsOpen(false)} onSave={saveStaff} heading={modalTitle}></StaffModal>
 
 
         </div>
@@ -160,4 +162,4 @@ function Customer() {
 
 }
 
-export default Customer
+export default Staff

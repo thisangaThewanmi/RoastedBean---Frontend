@@ -1,12 +1,12 @@
 
-interface ICustomerModal {
+interface StaffModal {
     isOpen: boolean;
     onClose: () => void;
     onSave: (customer: any) => void;
     heading:string;
 }
 
-function CustomerModel({isOpen,onClose,onSave,heading}:ICustomerModal){
+function StaffModal({isOpen,onClose,onSave,heading}:StaffModal){
 
 
 
@@ -113,4 +113,4 @@ function CustomerModel({isOpen,onClose,onSave,heading}:ICustomerModal){
 
 
 
-export default CustomerModel;
+export default StaffModal;
