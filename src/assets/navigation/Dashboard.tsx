@@ -1,3 +1,5 @@
+import {Link} from "react-router";
+
 function  Dashboard() {
     return (
 
@@ -8,62 +10,61 @@ function  Dashboard() {
 
             {/* Buttons Container */}
             <div className="flex flex-col items-center space-y-3 w-full ">
+
                 {/* Home Button */}
 
-                <button
-                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-300 transition text-center ">
-                    <i className="fas fa-home"></i>
-                    <span>Home</span>
-                </button>
-
-
-                {/* Field Button */}
+                {/* Home Button */}
                 <button
                     className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-300 transition text-center">
-                    <i className="fas fa-seedling"></i>
-                    <span>Items</span>
+                    <Link to="/" className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-home"></i>
+                        <span>Home</span>
+                    </Link>
                 </button>
 
-                {/* Crop Button */}
+
                 <button
-                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-600 transition text-center">
-                    <i className="fas fa-leaf"></i>
-                    <span>Menues</span>
+                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-300 transition text-center">
+                    <Link to="/staff" className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-home"></i>
+                        <span>Staff</span>
+                    </Link>
                 </button>
 
-                {/* Log Button */}
+
                 <button
-                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-600 transition text-center">
-                    <i className="fas fa-book"></i>
-                    <span>Place Order</span>
+                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-300 transition text-center">
+                    <Link to="/item" className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-home"></i>
+                        <span>Items</span>
+                    </Link>
                 </button>
 
-                {/* Vehicle Button */}
+
                 <button
-                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-600 transition text-center">
-                    <i className="fas fa-truck"></i>
-                    <span>Customers</span>
+                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-300 transition text-center">
+                    <Link to="/order" className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-home"></i>
+                        <span>Order</span>
+                    </Link>
                 </button>
 
-                {/* Equipment Button */}
-                <button
-                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-600 transition text-center">
-                    <i className="fas fa-tools"></i>
-                    <span>Suppliers</span>
-                </button>
 
-                {/* Staff Button */}
                 <button
-                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-600 transition text-center">
-                    <i className="fas fa-users"></i>
-                    <span>Staff</span>
+                    className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-[#8B5E3B] text-white hover:bg-gray-300 transition text-center">
+                    <Link to="/none" className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-home"></i>
+                        <span>None</span>
+                    </Link>
                 </button>
 
                 {/* Logout Button */}
                 <button
                     className="w-[90%] flex items-center space-x-2 py-3 rounded-lg bg-red-500 text-white hover:bg-red-500 transition text-center">
-                    <i className="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
+                    <Link to="/logout" className="w-full h-full flex items-center justify-center">
+                        <i className="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </Link>
                 </button>
             </div>
         </div>
