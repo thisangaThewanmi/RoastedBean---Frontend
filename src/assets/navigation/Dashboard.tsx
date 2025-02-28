@@ -11,7 +11,14 @@ function  Dashboard() {
             {/* Buttons Container */}
             <div className="flex flex-col items-center space-y-3 w-full ">
 
-                {/* Home Button */}
+                <div className="flex justify-center mb-4">
+                    <img
+                        src="./assets/logo.png" // Replace with your image URL
+                        alt="Café Logo"
+                        className="w-50 h-40  border-2 border-amber-700"
+                    />
+                </div>
+
 
                 {/* Home Button */}
                 <button
