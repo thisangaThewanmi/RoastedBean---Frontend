@@ -17,8 +17,8 @@ function ItemModal({isOpen,onClose,onSave,heading,item, setItem}:ItemModal){
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 width-70">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-6/12">
                 <div className="flex items-center justify-center mb-6">
                     <img src="/path/to/item-icon.svg" alt="Item Icon" className="w-12 h-12 mr-3" />
                     <h2 className="text-xl font-bold text-center">{heading}</h2>
@@ -81,6 +81,22 @@ function ItemModal({isOpen,onClose,onSave,heading,item, setItem}:ItemModal){
                                 onChange={(e) => setItem({ ...item, imageUrl: e.target.value })}
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
+                            {/* Image Preview */}
+                            {item.imageUrl && (
+                                <div className="mt-4">
+                                    <p className="text-sm font-medium text-gray-700 mb-2">Image Preview:</p>
+                                    <img
+                                        src={item.imageUrl}
+                                        alt="Item Preview"
+                                        className="w-full h-40 object-cover rounded-lg border"
+                                        onError={(e) => {
+                                            // Handle image loading errors
+                                            e.currentTarget.src = "https://via.placeholder.com/150"; // Fallback image
+                                            e.currentTarget.alt = "Image not available";
+                                        }}
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <div>
@@ -138,7 +154,7 @@ function ItemModal({isOpen,onClose,onSave,heading,item, setItem}:ItemModal){
 
                     <button
                         className="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700 transition"
-                        onClick={() => onSave(item)}
+                        onClick={onSave}
                     >
                         Save
                     </button>

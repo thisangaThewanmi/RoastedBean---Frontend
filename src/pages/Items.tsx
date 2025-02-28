@@ -2,9 +2,13 @@ import Dashboard from "../assets/navigation/Dashboard.tsx";
 import ProductCard from "../Components/ProductCard.tsx";
 
 import ItemModal from "../Components/ItemModal.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import {Item} from "../assets/Model/Item.ts";
+import { v4 as uuidv4 } from "uuid";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchItems} from "../reducers/ItemSlice.tsx";
+
 
 function Items() {
 
@@ -13,7 +17,7 @@ function Items() {
     const [isOpen, setIsModalOpen] = useState(false);
     const [itemData, setItem] = useState<Item>({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
 
-    // const {item, loading, error} = useSelector((state) => state.item);
+    const {items, loading, error} = useSelector((state) => state.item);
     const [isEditMode, setIsEditMode] = useState(false);
 
 
@@ -39,6 +43,43 @@ function Items() {
         setIsModalOpen(false);
     };
 
+    const dispatch = useDispatch();
+
+
+
+    useEffect(() => {
+        dispatch(fetchItems());
+    }, [dispatch])
+
+
+
+
+
+
+    // methods
+
+    //Add and Update Items
+    const handleAdd = () => {
+        if (isEditMode) {
+            // Update the staff member
+            // dispatch(updateItem(itemData));
+            setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
+        } else {
+            const itemId = uuidv4();
+
+            // Create a new customer object
+            const newItem: Item = new Item(itemId,itemData.name,itemData.description,itemData.price,itemData.availability,itemData.imageUrl,itemData.category,itemData.quantity )
+
+            console.log("newItem" + newItem);
+            // Dispatch the saveCustomer thunk
+            // dispatch(saveItem(newItem));
+            console.log(itemData);
+            setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
+        }
+
+    };
+
+
 
 
 
@@ -53,7 +94,8 @@ function Items() {
                 {/* Product Cards Section */}
                 <div className="h-[95%] w-[84%] ml-4 bg-white rounded-3xl bg-opacity-85 mt-2">
                     {/* Header Section */}
-                    <div className="w-[96%] h-[7%] mt-4 mr-3 ml-3 bg-white rounded-2xl border-2 border-amber-950 text-[#5D4037] px-4 py-2 font-semibold">
+                    <div
+                        className="w-[96%] h-[7%] mt-4 mr-3 ml-3 bg-white rounded-2xl border-2 border-amber-950 text-[#5D4037] px-4 py-2 font-semibold">
                         Dashboard / Manage Staff
                     </div>
 
@@ -64,91 +106,50 @@ function Items() {
                             placeholder="Search..."
                             className="w-3/4 p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-700"
                         />
-                        <button className="px-4 py-2 bg-amber-700 text-white font-bold rounded-lg hover:bg-amber-800" onClick={openModal} >
+                        <button className="px-4 py-2 bg-amber-700 text-white font-bold rounded-lg hover:bg-amber-800"
+                                onClick={openModal}>
                             Add Item
                         </button>
                     </div>
 
-                    {/* Scrollable Product Cards Container */}
+
+
+
                     <div className="h-[75%] overflow-y-auto">
                         <div className="grid grid-cols-6 gap-4">
-                            {/* Row 1 */}
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Espresso" price="$3.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Latte" price="$4.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Cappuccino" price="$4.49" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Croissant" price="$2.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Bagel" price="$1.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Muffin" price="$3.49" />
-                            </div>
-
-                            {/* Row 2 */}
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Chocolate Cake" price="$12.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Cheesecake" price="$9.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Red Velvet" price="$11.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Macaron" price="$1.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Donut" price="$2.49" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Brownie" price="$3.99" />
-                            </div>
-
-                            {/* Row 3 */}
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Iced Coffee" price="$4.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Cold Brew" price="$5.49" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Matcha Latte" price="$5.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Chai Latte" price="$4.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Hot Chocolate" price="$3.99" />
-                            </div>
-                            <div className="col-span-1">
-                                <ProductCard image="https://via.placeholder.com/150" name="Tea" price="$2.99" />
-                            </div>
+                            {/* Map over the fetched items and render ProductCard components */}
+                            {items.map((item) => {
+                                console.log("imageurl"+item.imageUrl)
+                                const price = typeof item.price === "number" ? item.price : parseFloat(item.price);
+                                return (
+                                    <div key={item.id} className="col-span-1">
+                                        <ProductCard
+                                            image={item.imageUrl}
+                                            name={item.name}
+                                            price={`$${(price || 0).toFixed(2)}`} // Ensure price is a number
+                                        />
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
+
                 </div>
             </div>
 
 
-    <ItemModal
-        isOpen={isOpen}
-        onClose={handleModalClose}
-        // onSave={handleAdd}
-        heading={modalTitle}
-        item={itemData}
-        setItem={setItem}
-        isEditMode={isEditMode} // Pass the mode to the modal
-    />
+            <ItemModal
+                isOpen={isOpen}
+                onClose={handleModalClose}
+                onSave={handleAdd}
+                heading={modalTitle}
+                item={itemData}
+                setItem={setItem}
+                isEditMode={isEditMode} // Pass the mode to the modal
+            />
         </div>
 
-);
+    );
 }
 
 export default Items;
