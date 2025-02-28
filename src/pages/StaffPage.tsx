@@ -4,6 +4,7 @@ import StaffModal from "../Components/StaffModal.tsx";
 import {fetchStaff, saveStaff} from "../reducers/StaffSlice.tsx";
 import { useDispatch } from 'react-redux';
 import {Staff} from "../assets/Model/Staff.ts";
+import { v4 as uuidv4 } from "uuid";
 
 
 function StaffPage() {
@@ -30,16 +31,16 @@ function StaffPage() {
 
 
     const handleAdd = () => {
+        const staffId = uuidv4();
 
         // Create a new customer object
-        const newStaff: Staff = new Staff(staffMem.staffId,staffMem.name,staffMem.email,staffMem.phone,staffMem.address,staffMem.status)
+        const newStaff: Staff = new Staff(staffId,staffMem.name,staffMem.email,staffMem.phone,staffMem.address,staffMem.status)
 
         console.log("newStaff"+newStaff);
         // Dispatch the saveCustomer thunk
         dispatch(saveStaff(newStaff));
         console.log(staffMem);
         setStaff({ staffId:"" , name: "", email: "", phone:"",address:"",status:""});
-
 
     };
 
