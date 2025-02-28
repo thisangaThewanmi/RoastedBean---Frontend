@@ -46,10 +46,10 @@ export const fetchStaff=createAsyncThunk(
 
 
 const StaffSlice = createSlice({
-    name:'staff',
-    initialState:initialState,
-    reducers:{
-        addStaff: (state, action)=>{
+    name: 'staff',
+    initialState: initialState,
+    reducers: {
+        addStaff: (state, action) => {
             state.staff.push(action.payload);
         },
     },
@@ -70,7 +70,20 @@ const StaffSlice = createSlice({
                 state.staff.push(action.payload); // Add the new staff member
                 console.log("Save staff fulfilled:", action.payload);
             })
+            .addCase(fetchStaff.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchStaff.fulfilled, (state, action) => {
+                state.loading = false;
+                state.staff = action.payload; // Store the fetched array in staffMembers
+            })
+            .addCase(fetchStaff.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message; // Set the error message
+            });
     },
+
 })
 export const {addStaff} = StaffSlice.actions;
 export default StaffSlice.reducer;
