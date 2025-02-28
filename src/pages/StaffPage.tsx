@@ -29,9 +29,8 @@ function StaffPage() {
 
     const modalTitle = isEditMode ? "Update Staff" : "Add Staff";
 
-
-    const handleDelete = (email: string) => {
-        dispatch(deleteStaff(email));
+    const handleModalClose = () => {
+        setIsModalOpen(false);
     };
 
 
@@ -42,12 +41,14 @@ function StaffPage() {
     }, [dispatch])
 
 
-
-    const handleModalClose = () => {
-        setIsModalOpen(false);
+    //DeleteStaff
+    const handleDelete = (email: string) => {
+        dispatch(deleteStaff(email));
     };
 
 
+
+    //Add and Update Staff
     const handleAdd = () => {
         if (isEditMode) {
             // Update the staff member
@@ -172,9 +173,6 @@ function StaffPage() {
                 </div>
             </div>
 
-            {/*<StaffModal isOpen={isOpen} onClose={handleModalClose} onSave={handleAdd} heading={modalTitle}*/}
-            {/*            staff={staffMem}*/}
-            {/*            setStaff={setStaff}></StaffModal>*/}
 
             <StaffModal
                 isOpen={isOpen}

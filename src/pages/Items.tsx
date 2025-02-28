@@ -1,7 +1,47 @@
 import Dashboard from "../assets/navigation/Dashboard.tsx";
 import ProductCard from "../Components/ProductCard.tsx";
 
+import ItemModal from "../Components/ItemModal.tsx";
+import {useState} from "react";
+
+import {Item} from "../assets/Model/Item.ts";
+
 function Items() {
+
+
+
+    const [isOpen, setIsModalOpen] = useState(false);
+    const [itemData, setItem] = useState<Item>({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
+
+    // const {item, loading, error} = useSelector((state) => state.item);
+    const [isEditMode, setIsEditMode] = useState(false);
+
+
+    const openEditModal = (item: Item) => {
+        setIsEditMode(true); // Set the modal to "Edit" mode
+        setItem(item); // Pre-fill the form with the staff member's data
+        setIsModalOpen(true); // Open the modal
+    };
+
+    const openModal = () => {
+        setIsEditMode(false); // Set the modal to "Add" mode
+        setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
+        setIsModalOpen(true);
+        // Reset the form
+
+    };
+
+    const modalTitle = isEditMode ? "Update Staff" : "Add Staff";
+
+
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+
+
+
     return (
         <div className="min-h-screen w-screen flex justify-center h-screen full-page-container bg-[url(https://i.pinimg.com/736x/5c/9d/ef/5c9def38bd720d1c4ec9d0721cfcf012.jpg)] bg-repeat bg-auto overflow-hidden">
             <div className="w-[97%] ml-2 mr-2 mt-2 mb-2 h-[100%] flex flex-row">
@@ -24,7 +64,7 @@ function Items() {
                             placeholder="Search..."
                             className="w-3/4 p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-700"
                         />
-                        <button className="px-4 py-2 bg-amber-700 text-white font-bold rounded-lg hover:bg-amber-800">
+                        <button className="px-4 py-2 bg-amber-700 text-white font-bold rounded-lg hover:bg-amber-800" onClick={openModal} >
                             Add Item
                         </button>
                     </div>
@@ -95,8 +135,20 @@ function Items() {
                     </div>
                 </div>
             </div>
+
+
+    <ItemModal
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        // onSave={handleAdd}
+        heading={modalTitle}
+        item={itemData}
+        setItem={setItem}
+        isEditMode={isEditMode} // Pass the mode to the modal
+    />
         </div>
-    );
+
+);
 }
 
 export default Items;
