@@ -1,12 +1,17 @@
 
+import {Staff} from "../assets/Model/Staff.ts";
+
 interface StaffModal {
     isOpen: boolean;
     onClose: () => void;
-    onSave: (customer: any) => void;
+    onSave: (staff: Staff) => void;
     heading:string;
+    staff: Staff;
+    setStaff: (staff: Staff) => void;
+
 }
 
-function StaffModal({isOpen,onClose,onSave,heading}:StaffModal){
+function StaffModal({isOpen,onClose,onSave,heading,staff, setStaff}:StaffModal){
 
 
 
@@ -31,6 +36,8 @@ function StaffModal({isOpen,onClose,onSave,heading}:StaffModal){
                                 id="full-name"
                                 type="text"
                                 placeholder="Enter full name"
+                                value={staff.name}
+                                onChange={(e) => setStaff({ ...staff, name: e.target.value })}
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
                         </div>
@@ -42,6 +49,8 @@ function StaffModal({isOpen,onClose,onSave,heading}:StaffModal){
                                 id="email"
                                 type="email"
                                 placeholder="Enter email address"
+                                value={staff.email}
+                                onChange={(e) => setStaff({ ...staff, email: e.target.value })}
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
                         </div>
@@ -53,6 +62,8 @@ function StaffModal({isOpen,onClose,onSave,heading}:StaffModal){
                                 id="phone"
                                 type="tel"
                                 placeholder="Enter phone number"
+                                value={staff.phone}
+                                onChange={(e) => setStaff({ ...staff, phone: e.target.value })}
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
                         </div>
@@ -64,30 +75,25 @@ function StaffModal({isOpen,onClose,onSave,heading}:StaffModal){
                                 id="address"
                                 type="text"
                                 placeholder="Enter address"
+                                value={staff.address}
+                                onChange={(e) => setStaff({ ...staff, address: e.target.value })}
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
                         </div>
 
                         <div>
-                            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">Status</label>
                             <input
-                                id="city"
+                                id="status"
                                 type="text"
-                                placeholder="Enter city"
+                                placeholder="Enter Status"
+                                value={staff.status}
+                                onChange={(e) => setStaff({ ...staff, status: e.target.value })}
                                 className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                             />
                         </div>
 
-                        <div>
-                            <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700 mb-2">Postal
-                                Code</label>
-                            <input
-                                id="postal-code"
-                                type="text"
-                                placeholder="Enter postal code"
-                                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
-                            />
-                        </div>
+
                     </div>
                 </div>
 

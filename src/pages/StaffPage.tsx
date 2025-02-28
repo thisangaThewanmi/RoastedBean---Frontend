@@ -1,24 +1,46 @@
 import Dashboard from "../assets/navigation/Dashboard.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import StaffModal from "../Components/StaffModal.tsx";
-
-function Staff() {
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedStaff, setSelectedStaff] = useState<any>(null);
-    const [modalTitle, setModalTitle] = useState("Add Staff"); // Default title
+import {fetchStaff, saveStaff} from "../reducers/StaffSlice.tsx";
+import { useDispatch } from 'react-redux';
+import {Staff} from "../assets/Model/Staff.ts";
 
 
+function StaffPage() {
 
-    const openEditModal = () => {
-        setSelectedStaff(null); // Pass existing customer data
-        setModalTitle("Update Staff"); // Change title for editing
-        setIsOpen(true);
+    const [isOpen, setIsModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("Add Staff");// Default title
+    const [staffMem, setStaff] = useState({ staffId:"" , name: "", email: "", phone:"",address:"",status:""});
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchStaff());
+    }, [dispatch])
+
+
+
+    const openModal = () => {
+        setIsModalOpen(true);
     };
 
-    const saveStaff = () => {
-        console.log("Customer Saved:");
-        setIsOpen(false);
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+
+    const handleAdd = () => {
+
+        // Create a new customer object
+        const newStaff: Staff = new Staff(staffMem.staffId,staffMem.name,staffMem.email,staffMem.phone,staffMem.address,staffMem.status)
+
+        console.log("newStaff"+newStaff);
+        // Dispatch the saveCustomer thunk
+        dispatch(saveStaff(newStaff));
+        console.log(staffMem);
+        setStaff({ staffId:"" , name: "", email: "", phone:"",address:"",status:""});
+
+
     };
 
 
@@ -62,7 +84,7 @@ function Staff() {
                         </div>
 
                         {/* Add Customer Button */}
-                        <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition"  onClick={() => setIsOpen(true)}>
+                        <button className="bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition"  onClick={openModal}>
                             + Add Customer
                         </button>
                     </div>
@@ -153,7 +175,8 @@ function Staff() {
                 </div>
             </div>
 
-            <StaffModal isOpen={isOpen} onClose={()=> setIsOpen(false)} onSave={saveStaff} heading={modalTitle}></StaffModal>
+            <StaffModal isOpen={isOpen} onClose={handleModalClose} onSave={handleAdd} heading={modalTitle} staff={staffMem}
+                        setStaff={setStaff}></StaffModal>
 
 
         </div>
@@ -162,4 +185,4 @@ function Staff() {
 
 }
 
-export default Staff
+export default StaffPage
