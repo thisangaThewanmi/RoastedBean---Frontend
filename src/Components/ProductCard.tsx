@@ -1,6 +1,6 @@
 
 
-const ProductCard = ({ image, name, price }) => {
+const ProductCard = ({ image, name, price ,onEdit,onDelete}) => {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
             {/* Product Image */}
@@ -17,9 +17,21 @@ const ProductCard = ({ image, name, price }) => {
             </div>
 
             {/* Add to Cart Button (Optional) */}
-            <button className="w-full bg-amber-700 text-white text-sm font-semibold py-2 hover:bg-amber-800 transition-colors duration-300">
-                Add to Cart
-            </button>
+            {/* Buttons for Edit and Delete */}
+            <div className="flex justify-between p-3">
+                <button
+                    className="flex-1 bg-amber-700 text-white text-sm font-semibold py-2 hover:bg-amber-800 transition-colors duration-300 mr-2"
+                    onClick={onEdit} // Call the onEdit method passed from the parent
+                >
+                    Edit
+                </button>
+                <button
+                    className="flex-1 bg-red-600 text-white text-sm font-semibold py-2 hover:bg-red-700 transition-colors duration-300 ml-2 "
+                    onClick={onDelete} // Call the onDelete method passed from the parent
+                >
+                    Delete
+                </button>
+            </div>
         </div>
     );
 };

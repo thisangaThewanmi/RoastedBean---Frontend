@@ -33,6 +33,40 @@ export const fetchItems = createAsyncThunk(
     }
 );
 
+// Async thunk to add an item
+export const saveItem = createAsyncThunk(
+    "item/addItem",
+    async (item: Item) => {
+        console.log("Inside the saveItem method");
+        try {
+            const response = await api.post("/api/v1/item/addItem", item);
+            console.log(response.data);
+            return response.data;
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+);
+
+
+// Async thunk to update an item
+export const updateItem = createAsyncThunk(
+    "item/updateItem",
+    async (updatedItem: Item, { rejectWithValue }) => {
+        console.log("Updating item:", updatedItem);
+        try {
+            const response = await api.put(`/api/v1/item/${updatedItem.id}`, updatedItem);
+            console.log("Item updated:", response.data);
+            return response.data as Item; // Return the updated item
+        } catch (err) {
+            console.error("Error updating item:", err);
+            return rejectWithValue(err.response?.data || "Failed to update item");
+        }
+    }
+);
+
+
 
 // Create the slice
 const ItemSlice = createSlice({
@@ -57,6 +91,41 @@ const ItemSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message; // Set the error message
             })
+
+            // Handle Add Item
+            .addCase(saveItem.pending, (state) => {
+                state.loading = true;
+                state.error = null; // Clear any previous errors
+                console.log("Save item pending");
+            })
+            .addCase(saveItem.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string; // Store the error
+                console.log("Save item rejected:", action.payload);
+            })
+            .addCase(saveItem.fulfilled, (state, action) => {
+                state.loading = false;
+                state.items.push(action.payload); // Add the new item
+                console.log("Save item fulfilled:", action.payload);
+            })
+
+
+            // Handle Update Item
+            .addCase(updateItem.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateItem.fulfilled, (state, action) => {
+                state.loading = false;
+                // Update the item in the items array
+                state.items = state.items.map((item) =>
+                    item.id === action.payload.id ? action.payload : item
+                );
+            })
+            .addCase(updateItem.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string; // Set the error message
+            });
 
 
     },

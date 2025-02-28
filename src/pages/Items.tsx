@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {Item} from "../assets/Model/Item.ts";
 import { v4 as uuidv4 } from "uuid";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchItems} from "../reducers/ItemSlice.tsx";
+import {fetchItems, saveItem, updateItem} from "../reducers/ItemSlice.tsx";
 
 
 function Items() {
@@ -62,7 +62,7 @@ function Items() {
     const handleAdd = () => {
         if (isEditMode) {
             // Update the staff member
-            // dispatch(updateItem(itemData));
+            dispatch(updateItem(itemData));
             setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
         } else {
             const itemId = uuidv4();
@@ -72,7 +72,7 @@ function Items() {
 
             console.log("newItem" + newItem);
             // Dispatch the saveCustomer thunk
-            // dispatch(saveItem(newItem));
+            dispatch(saveItem(newItem));
             console.log(itemData);
             setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
         }
@@ -119,14 +119,14 @@ function Items() {
                         <div className="grid grid-cols-6 gap-4">
                             {/* Map over the fetched items and render ProductCard components */}
                             {items.map((item) => {
-                                console.log("imageurl"+item.imageUrl)
                                 const price = typeof item.price === "number" ? item.price : parseFloat(item.price);
+                                const displayPrice = isNaN(price) ? 0 : price; // Explicitly handle NaN
                                 return (
                                     <div key={item.id} className="col-span-1">
                                         <ProductCard
                                             image={item.imageUrl}
                                             name={item.name}
-                                            price={`$${(price || 0).toFixed(2)}`} // Ensure price is a number
+                                            price={`$${displayPrice.toFixed(2)}`}
                                         />
                                     </div>
                                 );
