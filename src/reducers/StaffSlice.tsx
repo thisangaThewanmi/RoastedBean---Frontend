@@ -44,6 +44,21 @@ export const fetchStaff=createAsyncThunk(
     }
 )
 
+export const deleteStaff = createAsyncThunk(
+    "staff/deleteStaff",
+    async (email: string, { rejectWithValue }) => {
+        console.log("Deleting staff with ID:", email);
+        try {
+            const response = await api.delete(`/api/v1/staff/${email}`);
+            console.log("Staff deleted:", response.data);
+            return email; // Return the deleted staff ID
+        } catch (err) {
+            console.error("Error deleting staff:", err);
+            return rejectWithValue(err.response?.data || "Failed to delete staff");
+        }
+    }
+);
+
 
 const StaffSlice = createSlice({
     name: 'staff',
@@ -81,6 +96,20 @@ const StaffSlice = createSlice({
             .addCase(fetchStaff.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message; // Set the error message
+            })
+
+    .addCase(deleteStaff.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+            .addCase(deleteStaff.fulfilled, (state, action) => {
+                state.loading = false;
+                // Remove the deleted staff member from the staff array
+                state.staff = state.staff.filter((staff) => staff.email !== action.payload);
+            })
+            .addCase(deleteStaff.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string; // Set the error message
             });
     },
 
