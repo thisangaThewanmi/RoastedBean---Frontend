@@ -1,7 +1,7 @@
 import Dashboard from "../assets/navigation/Dashboard.tsx";
 import {useEffect, useState} from "react";
 import StaffModal from "../Components/StaffModal.tsx";
-import {deleteStaff, fetchStaff, saveStaff} from "../reducers/StaffSlice.tsx";
+import {deleteStaff, fetchStaff, saveStaff, updateStaff} from "../reducers/StaffSlice.tsx";
 import {useDispatch, useSelector} from 'react-redux';
 import {Staff} from "../assets/Model/Staff.ts";
 import { v4 as uuidv4 } from "uuid";
@@ -10,14 +10,25 @@ import { v4 as uuidv4 } from "uuid";
 function StaffPage() {
 
     const [isOpen, setIsModalOpen] = useState(false);
-    const [modalTitle, setModalTitle] = useState("Add Staff");// Default title
     const [staffMem, setStaff] = useState({staffId: "", name: "", email: "", phone: "", address: "", status: ""});
     const {staff, loading, error} = useSelector((state) => state.staff);
+    const [isEditMode, setIsEditMode] = useState(false);
+
 
     const openEditModal = (staff: Staff) => {
-        // setStaffToEdit(staff); // Set the staff member to edit
-        // isOpen(true); // Open the edit modal
+        setIsEditMode(true); // Set the modal to "Edit" mode
+        setStaff(staff); // Pre-fill the form with the staff member's data
+        setIsModalOpen(true); // Open the modal
     };
+
+    const openModal = () => {
+        setIsEditMode(false); // Set the modal to "Add" mode
+        setStaff({ staffId: "", name: "", email: "", phone: "", address: "", status: "" }); // Reset the form
+
+    };
+
+    const modalTitle = isEditMode ? "Update Staff" : "Add Staff";
+
 
     const handleDelete = (email: string) => {
         dispatch(deleteStaff(email));
@@ -31,9 +42,6 @@ function StaffPage() {
     }, [dispatch])
 
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
 
     const handleModalClose = () => {
         setIsModalOpen(false);
@@ -41,16 +49,22 @@ function StaffPage() {
 
 
     const handleAdd = () => {
-        const staffId = uuidv4();
+        if (isEditMode) {
+            // Update the staff member
+            dispatch(updateStaff(staffMem));
+            setStaff({staffId: "", name: "", email: "", phone: "", address: "", status: ""});
+        } else {
+            const staffId = uuidv4();
 
-        // Create a new customer object
-        const newStaff: Staff = new Staff(staffId, staffMem.name, staffMem.email, staffMem.phone, staffMem.address, staffMem.status)
+            // Create a new customer object
+            const newStaff: Staff = new Staff(staffId, staffMem.name, staffMem.email, staffMem.phone, staffMem.address, staffMem.status)
 
-        console.log("newStaff" + newStaff);
-        // Dispatch the saveCustomer thunk
-        dispatch(saveStaff(newStaff));
-        console.log(staffMem);
-        setStaff({staffId: "", name: "", email: "", phone: "", address: "", status: ""});
+            console.log("newStaff" + newStaff);
+            // Dispatch the saveCustomer thunk
+            dispatch(saveStaff(newStaff));
+            console.log(staffMem);
+            setStaff({staffId: "", name: "", email: "", phone: "", address: "", status: ""});
+        }
 
     };
 
@@ -158,9 +172,19 @@ function StaffPage() {
                 </div>
             </div>
 
-            <StaffModal isOpen={isOpen} onClose={handleModalClose} onSave={handleAdd} heading={modalTitle}
-                        staff={staffMem}
-                        setStaff={setStaff}></StaffModal>
+            {/*<StaffModal isOpen={isOpen} onClose={handleModalClose} onSave={handleAdd} heading={modalTitle}*/}
+            {/*            staff={staffMem}*/}
+            {/*            setStaff={setStaff}></StaffModal>*/}
+
+            <StaffModal
+                isOpen={isOpen}
+                onClose={handleModalClose}
+                onSave={handleAdd}
+                heading={modalTitle}
+                staff={staffMem}
+                setStaff={setStaff}
+                isEditMode={isEditMode} // Pass the mode to the modal
+            />
 
 
         </div>
