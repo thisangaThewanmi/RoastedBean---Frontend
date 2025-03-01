@@ -7,7 +7,8 @@ import {useEffect, useState} from "react";
 import {Item} from "../assets/Model/Item.ts";
 import { v4 as uuidv4 } from "uuid";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchItems, saveItem, updateItem} from "../reducers/ItemSlice.tsx";
+import {deleteItem, fetchItems, saveItem, updateItem} from "../reducers/ItemSlice.tsx";
+import {updateStaff} from "../reducers/StaffSlice.tsx";
 
 
 function Items() {
@@ -65,20 +66,37 @@ function Items() {
             dispatch(updateItem(itemData));
             setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
         } else {
+
             const itemId = uuidv4();
 
             // Create a new customer object
-            const newItem: Item = new Item(itemId,itemData.name,itemData.description,itemData.price,itemData.availability,itemData.imageUrl,itemData.category,itemData.quantity )
+            const newItem: Item = new Item(itemId, itemData.name, itemData.description, itemData.price, itemData.availability, itemData.imageUrl, itemData.category, itemData.quantity)
 
             console.log("newItem" + newItem);
             // Dispatch the saveCustomer thunk
             dispatch(saveItem(newItem));
             console.log(itemData);
-            setItem({id: "", name: "", description: null, price: 0, availability: true, imageUrl: "", category: "", quantity: 0,});
+            setItem({
+                id: "",
+                name: "",
+                description: null,
+                price: 0,
+                availability: true,
+                imageUrl: "",
+                category: "",
+                quantity: 0,
+            });
         }
 
-    };
+    }
 
+
+
+    // Handle Delete action
+    const handleDelete = (itemId) => {
+        dispatch(deleteItem(itemId))
+
+    };
 
 
 
@@ -127,6 +145,12 @@ function Items() {
                                             image={item.imageUrl}
                                             name={item.name}
                                             price={`$${displayPrice.toFixed(2)}`}
+                                            onDelete={() => handleDelete(item.id)} // Pass a function reference
+                                            onEdit={() => {
+                                                setItem(item); // Pre-fill the form with the item's data
+                                                setIsEditMode(true); // Set the modal to "Edit" mode
+                                                setIsModalOpen(true); // Open the modal
+                                            }}
                                         />
                                     </div>
                                 );

@@ -66,6 +66,22 @@ export const updateItem = createAsyncThunk(
     }
 );
 
+// Async thunk to delete an item
+export const deleteItem = createAsyncThunk(
+    "item/deleteItem",
+    async (id: string, { rejectWithValue }) => {
+        console.log("Deleting item with ID:", id);
+        try {
+            const response = await api.delete(`/api/v1/item/${id}`);
+            console.log("Item deleted:", response.data);
+            return id; // Return the deleted item ID
+        } catch (err) {
+            console.error("Error deleting item:", err);
+            return rejectWithValue(err.response?.data || "Failed to delete item");
+        }
+    }
+);
+
 
 
 // Create the slice
@@ -125,9 +141,23 @@ const ItemSlice = createSlice({
             .addCase(updateItem.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload as string; // Set the error message
-            });
+            })
 
 
+            // Handle Delete Item
+            .addCase(deleteItem.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteItem.fulfilled, (state, action) => {
+                state.loading = false;
+                // Remove the deleted item from the items array
+                state.items = state.items.filter((item) => item.id !== action.payload);
+            })
+            .addCase(deleteItem.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string; // Set the error message
+            })
     },
 });
 
